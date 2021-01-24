@@ -13,7 +13,22 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
-    ],
+      {
+        path: 'testing',
+        loadChildren: () => import('./testing/testing.module').then((module) => module.TestingModule),
+      },
+      {
+        path: 'api',
+        loadChildren: () => import('./api/api.module').then((module) => module.ApiModule),
+      },
+      {
+        path: 'web',
+        loadChildren: () => import('./web/web.module').then((module) => module.WebModule),
+      },
+      {
+        path: 'mobile',
+        loadChildren: () => import('./mobile/mobile.module').then((module) => module.MobileModule),
+      }],
   },
   // passport
   { path: '', loadChildren: () => import('./passport/passport.module').then((m) => m.PassportModule) },
@@ -33,4 +48,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule {
+}

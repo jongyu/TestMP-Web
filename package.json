@@ -1,11 +1,11 @@
 {
-  "name": "ng-alain-pro",
-  "version": "0.0.0",
+  "name": "test_mp",
+  "version": "1.0.0",
   "description": "Ng-alain business theme, ng-zorro-antd admin panel front-end framework",
-  "author": "cipchk <cipchk@qq.com>",
+  "author": "yuzhong <zhongyu@bilibili.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ng-alain/ng-alain.git"
+    "url": "git+https://github.com/jongyu/TestMP-Web"
   },
   "homepage": "https://e.ng-alain.com/theme/pro",
   "scripts": {

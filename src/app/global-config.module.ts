@@ -13,9 +13,8 @@ const alainConfig: AlainConfig = {
   st: { modal: { size: 'lg' } },
   pageHeader: { homeI18n: 'home', recursiveBreadcrumb: true },
   auth: {
-    // login_url: '/passport/login',
-    login_url: 'https://www.baidu.com',
-    ignores: [/\/auth\/login/, /\/auth\/register/, /\/auth\/authenticate/, /assets\//, /passport\//],
+    login_url: '/passport/login',
+    ignores: [/\/auth\/login/, /\/auth\/register/, /assets\//, /passport\//],
   },
 };
 

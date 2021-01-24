@@ -49,10 +49,15 @@ export class StartupService {
             this.translate.setTranslation(this.i18n.defaultLang, langData);
             this.translate.setDefaultLang(this.i18n.defaultLang);
 
+            const app = {
+              name: 'TestMP',
+              description: '自动化测试平台',
+            };
+
             // application data
             const res = appData as NzSafeAny;
             // 应用信息：包括站点名、描述、年份
-            this.settingService.setApp(res.app);
+            this.settingService.setApp(app);
             // 用户信息：包括姓名、头像、邮箱地址
             this.settingService.setUser(res.user);
             // ACL：设置权限为全量
@@ -61,7 +66,7 @@ export class StartupService {
             this.menuService.add(res.menu);
             // 设置页面标题的后缀
             this.titleService.default = '';
-            this.titleService.suffix = res.app.name;
+            this.titleService.suffix = app.name;
           },
           () => {
           },

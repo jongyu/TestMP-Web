@@ -11,33 +11,25 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./register.component.less'],
 })
 export class UserRegisterComponent implements OnDestroy {
-  constructor(fb: FormBuilder, private router: Router, public http: _HttpClient, public msg: NzMessageService) {
-    this.form = fb.group({
-      mail: [null, [Validators.required, Validators.email]],
+
+  constructor(formBuilder: FormBuilder, private router: Router, public http: _HttpClient, public msg: NzMessageService) {
+    this.form = formBuilder.group({
+      username: [null, [Validators.required, Validators.minLength(6)]],
       password: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],
       confirm: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.passwordEquar]],
-      mobilePrefix: ['+86'],
-      mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
-      captcha: [null, [Validators.required]],
     });
   }
 
   // #region fields
 
-  get mail(): AbstractControl {
-    return this.form.controls.mail;
+  get username(): AbstractControl {
+    return this.form.controls.username;
   }
   get password(): AbstractControl {
     return this.form.controls.password;
   }
   get confirm(): AbstractControl {
     return this.form.controls.confirm;
-  }
-  get mobile(): AbstractControl {
-    return this.form.controls.mobile;
-  }
-  get captcha(): AbstractControl {
-    return this.form.controls.captcha;
   }
   form: FormGroup;
   error = '';
@@ -87,21 +79,6 @@ export class UserRegisterComponent implements OnDestroy {
     return null;
   }
 
-  getCaptcha(): void {
-    if (this.mobile.invalid) {
-      this.mobile.markAsDirty({ onlySelf: true });
-      this.mobile.updateValueAndValidity({ onlySelf: true });
-      return;
-    }
-    this.count = 59;
-    this.interval$ = setInterval(() => {
-      this.count -= 1;
-      if (this.count <= 0) {
-        clearInterval(this.interval$);
-      }
-    }, 1000);
-  }
-
   // #endregion
 
   submit(): void {
@@ -113,9 +90,8 @@ export class UserRegisterComponent implements OnDestroy {
     if (this.form.invalid) {
       return;
     }
-
     const data = this.form.value;
-    this.http.post('/register?_allow_anonymous=true', data).subscribe(() => {
+    this.http.post('/auth/register', data).subscribe(() => {
       this.router.navigate(['passport', 'register-result'], { queryParams: { email: data.mail } });
     });
   }

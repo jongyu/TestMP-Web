@@ -57,44 +57,6 @@ export class DefaultInterceptor implements HttpInterceptor {
     setTimeout(() => this.injector.get(Router).navigateByUrl(url));
   }
 
-  private getAuthenticate(): Observable<any> {
-    return this.http.post(`/auth/authenticate`, null);
-  }
-
-  private reSetToken(token: string): void {
-    this.http.post(`/auth/authenticate/${token}`, null).subscribe((result) => {
-      const data = result.data;
-      this.tokenSrv.set(data);
-    });
-    this.delay(1000);
-    window.location.reload();
-  }
-
-  async delay(ms: number): Promise<void> {
-    await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log('fired'));
-  }
-
-  private tryRefreshToken(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    return this.getAuthenticate().pipe(
-      switchMap((result) => {
-        const data = result.data;
-        this.tokenSrv.set(data);
-        console.log(`需要重新请求：${req.url} Token：${data.token}`);
-        window.location.reload();
-        const request = req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${data.token}`,
-          },
-        });
-        return next.handle(request);
-      }),
-      catchError((err) => {
-        this.toLogin();
-        return throwError(err);
-      }),
-    );
-  }
-
   private checkStatus(ev: HttpResponseBase): void {
     if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
       return;
@@ -105,6 +67,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   private toLogin(): void {
     this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
+    this.goTo('/passport/login');
   }
 
   private handleData(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
@@ -133,12 +96,6 @@ export class DefaultInterceptor implements HttpInterceptor {
         // }
         break;
       case 401:
-        const token = this.injector.get(ActivatedRoute).snapshot.queryParams.token;
-        if (token) {
-          // return this.tryRefreshToken(ev, req, next);
-          this.reSetToken(token);
-          break;
-        }
         this.toLogin();
         break;
       case 403:

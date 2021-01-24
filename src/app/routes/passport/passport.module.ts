@@ -22,8 +22,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CallbackComponent } from './callback.component';
 import { UserLockComponent } from './lock/lock.component';
 import { UserLoginComponent } from './login/login.component';
-import { UserLogin2Component } from './login2/login2.component';
-import { UserLogin3Component } from './login3/login3.component';
 import { PassportRoutingModule } from './passport-routing.module';
 import { UserRegisterResultComponent } from './register-result/register-result.component';
 import { UserRegisterComponent } from './register/register.component';
@@ -35,8 +33,6 @@ const COMPONENTS = [
   UserRegisterResultComponent,
   UserLockComponent,
   // single pages
-  UserLogin2Component,
-  UserLogin3Component,
   CallbackComponent,
 ];
 
