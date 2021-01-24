@@ -12,23 +12,21 @@ import { DelonACLModule } from '@delon/acl';
 const alainConfig: AlainConfig = {
   st: { modal: { size: 'lg' } },
   pageHeader: { homeI18n: 'home', recursiveBreadcrumb: true },
-  auth: { login_url: '/passport/login' },
+  auth: {
+    // login_url: '/passport/login',
+    login_url: 'https://www.baidu.com',
+    ignores: [/\/auth\/login/, /\/auth\/register/, /\/auth\/authenticate/, /assets\//, /passport\//],
+  },
 };
 
 const alainModules = [AlainThemeModule.forRoot(), DelonACLModule.forRoot(), DelonMockModule.forRoot()];
 const alainProvides = [{ provide: ALAIN_CONFIG, useValue: alainConfig }];
 
-// mock
-import { environment } from '@env/environment';
-import * as MOCKDATA from '../../_mock';
-if (!environment.production) {
-  alainConfig.mock = { data: MOCKDATA };
-}
-
 // #region reuse-tab
 
 import { RouteReuseStrategy } from '@angular/router';
 import { ReuseTabMatchMode, ReuseTabService, ReuseTabStrategy } from '@delon/abc/reuse-tab';
+
 alainProvides.push({
   provide: RouteReuseStrategy,
   useClass: ReuseTabStrategy,

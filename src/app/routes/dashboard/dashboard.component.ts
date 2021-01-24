@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { _HttpClient } from '@delon/theme';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,4 +7,12 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./dashboard.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+
+  constructor(private http: _HttpClient) {
+    http.get(`/user/admin`).subscribe((result: any) => {
+      console.log(result);
+    });
+  }
+
+}

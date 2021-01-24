@@ -11,7 +11,7 @@
   "scripts": {
     "ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng",
     "ng": "ng",
-    "start": "ng s -o",
+    "start": "ng s --proxy-config proxy.conf.json --host 0.0.0.0",
     "hmr": "ng s -o --hmr",
     "build": "npm run ng-high-memory build -- --prod",
     "analyze": "npm run ng-high-memory build -- --prod --source-map",
